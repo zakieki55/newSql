@@ -1,7 +1,5 @@
 package com.example.newsql.Adapter;
-
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -35,74 +33,79 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHolder> {
 
     private ArrayList<Teman> listData;
-    private Context control;
+
 
     public TemanAdapter(ArrayList<Teman> listData) {
+
         this.listData = listData;
     }
 
     @Override
     public TemanViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater layoutInf = LayoutInflater.from(parent.getContext());
-        View view = layoutInf.inflate(R.layout.row_data_tambah_teman, parent, false);
+        View view = layoutInf.inflate(R.layout.row_data_teman, parent, false);
         return new  TemanViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(TemanAdapter.TemanViewHolder holder, int position) {
+    public void onBindViewHolder(TemanViewHolder holder, int position) {
         String nm, tlp, id;
 
         id = listData.get(position).getId();
         nm = listData.get(position).getNama();
         tlp = listData.get(position).getTelpon();
 
+        // Style
         holder.namaTxt.setTextColor(Color.BLUE);
         holder.namaTxt.setTextSize(20);
+
+        // Set Text
         holder.namaTxt.setText(nm);
         holder.telponTxt.setText(tlp);
 
         holder.cardku.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                PopupMenu pm = new PopupMenu(view.getContext(), view);
+            public boolean onLongClick(View v) {
+                PopupMenu pm = new PopupMenu(v.getContext(), v);
                 pm.inflate(R.menu.popup1);
 
                 pm.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem menuItem) {
-                        switch (menuItem.getItemId()){
+                    public boolean onMenuItemClick(MenuItem Item) {
+                        switch (Item.getItemId())
+                        {
                             case R.id.edit:
                                 Bundle bendel = new Bundle();
                                 bendel.putString("kunci1", id);
                                 bendel.putString("kunci2", nm);
                                 bendel.putString("kunci3", tlp);
-                                Intent inten = new Intent(view.getContext(), EditTeman.class);
+                                Intent inten = new Intent(v.getContext(), EditTeman.class);
                                 inten.putExtras(bendel);
-                                view.getContext().startActivity(inten);
+                                v.getContext().startActivity(inten);
                                 break;
 
                             case R.id.hapus:
-                                AlertDialog.Builder alertdb = new AlertDialog.Builder(view.getContext());
-                                alertdb.setTitle("Yakin "+ nm + "akan dihapus?");
-                                alertdb.setMessage("Tekan Ya untuk menghapus");
+                                AlertDialog.Builder alertdb = new AlertDialog.Builder(v.getContext());
+                                alertdb.setTitle("Yakin "+nm+" Akan dihapus?");
+                                alertdb.setMessage("Tekan Ya untuk Menghapus");
                                 alertdb.setCancelable(false);
                                 alertdb.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                                     @Override
-                                    public void onClick(DialogInterface dialogInterface, int which) {
-                                        Hapusdata(id);
-                                        Toast.makeText(view.getContext(), "Data " + id +" telah dihapus", Toast.LENGTH_LONG).show();
-                                        Intent intent = new Intent(view.getContext(), MainActivity.class);
-                                        view.getContext().startActivity(intent);
-
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        HapusData(id);
+                                        Toast.makeText(v.getContext(), "Data "+id+" telah dihapus", Toast.LENGTH_LONG).show();
+                                        Intent intent = new Intent(v.getContext(), MainActivity.class);
+                                        v.getContext().startActivity(intent);
                                     }
                                 });
                                 alertdb.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
                                     @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        dialogInterface.cancel();
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.cancel();
                                     }
                                 });
                                 AlertDialog adlg = alertdb.create();
@@ -116,11 +119,13 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
                 return true;
             }
         });
+
     }
-    private void Hapusdata(final String idx){
-        String url_update = "http://20200140053.praktikumtiumy.com/deletetm.php";
+
+    private void HapusData(final String idx){
+        String url_update = "https://20200140053.praktikumtiumy.com/deletetm.php";
         final String TAG = MainActivity.class.getSimpleName();
-        final String TAG_SUCCESS = "success";
+        final String TAG_SUCCES = "success";
         final int[] sukses = new int[1];
 
         StringRequest stringReq = new StringRequest(Request.Method.POST, url_update, new Response.Listener<String>() {
@@ -129,7 +134,7 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
                 Log.d(TAG, "Respon: " + response.toString());
                 try {
                     JSONObject jobj = new JSONObject(response);
-                    sukses[0] = jobj.getInt(TAG_SUCCESS);
+                    sukses[0] = jobj.getInt(TAG_SUCCES);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -137,14 +142,13 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "Error : "+ error.getMessage());
+                Log.e(TAG, "Error : "+error.getMessage());
             }
         })
         {
             @Override
             protected Map<String,String> getParams(){
                 Map<String,String> params = new HashMap<>();
-
                 params.put("id",idx);
 
                 return params;
@@ -166,10 +170,9 @@ public class TemanAdapter extends RecyclerView.Adapter<TemanAdapter.TemanViewHol
         public TemanViewHolder(View view) {
             super(view);
 
-            cardku =(CardView) view.findViewById(R.id.cardku);
+            cardku =(CardView) view.findViewById(R.id.card);
             namaTxt = (TextView) view.findViewById(R.id.textNama);
             telponTxt = (TextView) view.findViewById(R.id.textTelpon);
         }
     }
 }
-

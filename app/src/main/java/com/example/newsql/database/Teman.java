@@ -1,12 +1,11 @@
 package com.example.newsql.database;
 
 public class Teman {
-
-    // Variable String yg sama pada DBController
-    String id,nama,telpon;
+    String id;
+    String nama;
+    String telpon;
 
     public Teman() {
-
     }
 
     public Teman(String id, String nama, String telpon) {
@@ -39,4 +38,3 @@ public class Teman {
         this.telpon = telpon;
     }
 }
-

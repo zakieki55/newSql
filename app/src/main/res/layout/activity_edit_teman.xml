@@ -5,18 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".EditTeman">
+
     <TextView
         android:id="@+id/textId"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="164dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.031" />
+        app:layout_constraintVertical_bias="0.212" />
 
     <EditText
         android:id="@+id/editNm"
@@ -25,12 +25,14 @@
         android:ems="10"
         android:hint="Nama"
         android:inputType="textPersonName"
+        android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.361" />
+        app:layout_constraintTop_toBottomOf="@+id/textId"
+        app:layout_constraintVertical_bias="0.099"
+        tools:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/editTlp"
@@ -39,11 +41,13 @@
         android:ems="10"
         android:hint="Telpon"
         android:inputType="phone"
+        android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/editNm"
+        app:layout_constraintVertical_bias="0.096" />
 
     <Button
         android:id="@+id/buttonEdit"
@@ -52,8 +56,6 @@
         android:text="Update"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.721" />
+        app:layout_constraintTop_toBottomOf="@+id/editTlp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
